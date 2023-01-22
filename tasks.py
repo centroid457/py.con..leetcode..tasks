@@ -5,8 +5,8 @@ import pytest
 
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n >= 2:
-            return 2 * self.climbStairs(n - 1)
+        if n > 2:
+            return 2+self.climbStairs(n - 2)
         else:
             return n
 
