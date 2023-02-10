@@ -2,51 +2,41 @@ import re
 from typing import *
 import pytest
 
-
 class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        valid = "abcdefghijklmnopqrstuvwxyz0123456789"
+    def convertToTitle(self, columnNumber: int) -> str:
+        ord_A = ord("A") - 1
+        base = 26
 
-        finish_index = len(s) -1
+        result = ""
+        while columnNumber:
+            value = columnNumber % base
+            value = value or base
+            result = chr(value + ord_A) + result
 
-        for start_index, start_value in enumerate(s):
-            # get correct start
-            start_value = start_value.lower()
-            if start_value not in valid:
-                continue
+            if columnNumber == base:
+                break
+            columnNumber = (columnNumber - 1)//base
 
-            # get correct finish
-            finish_value = s[finish_index].lower()
-            while start_index < finish_index and finish_value not in valid:
-                finish_index -= 1
-                finish_value = s[finish_index].lower()
-
-            if start_index >= finish_index:
-                return True
-
-            if start_value != finish_value:
-                return False
-            else:
-                finish_index -= 1
-        return True
+        return result
 
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        # (["123"], False),
-        # (["121"], True),
-        # (["111"], True),
-        # (["11"], True),
-        # (["1"], True),
-        (["A man, a plan, a canal: Panama"], True),
-
+        ([1], "A"),
+        ([7], "G"),
+        ([26], "Z"),
+        ([27], "AA"),
+        ([28], "AB"),
+        ([676], "YZ"),
+        ([701], "ZY"),
+        ([17576], "YYZ"),
 
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().isPalindrome
+    test_obj_link = Solution().convertToTitle
     result = test_obj_link(*params)
     assert result == EXPECTED
 
