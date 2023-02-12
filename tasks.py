@@ -4,19 +4,43 @@ import pytest
 
 
 class Solution:
-    def reverseBits(self, n: int) -> int:
-        return int(f"{n:0>32b}"[::-1], 2)
+    def PascalTriangle(self, numRows: int) -> List[List[int]]:
+        rows = []
+        row_prev = []
+
+        for row_index in range(numRows):
+            row = [1]
+            row_index_center = (row_index+2)//2 -1
+
+            for element_index in range(1, row_index+1):
+                if element_index == row_index_center and not row_index%2:
+                    row.append(row_prev[element_index] * 2)
+                    row.extend(row[0:-1][::-1])
+                    break
+                elif element_index <= row_index_center:
+                    row.append(row_prev[element_index - 1] + row_prev[element_index])
+                    continue
+
+                row.extend(row[::-1])
+                break
+
+            row_prev = row
+            rows.append(row)
+
+        return rows
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([0b00000010100101000001111010011100], 0b00111001011110000010100101000000),
-        ([0b11111111111111111111111111111101], 0b10111111111111111111111111111111),
+        ([1], [[1]]),
+        ([2], [[1],[1,1]]),
+        ([3], [[1],[1,1],[1,2,1]]),
+        ([4], [[1],[1,1],[1,2,1],[1,3,3,1]]),
+        ([5], [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().reverseBits
+    test_obj_link = Solution().PascalTriangle
     result = test_obj_link(*params)
     assert result == EXPECTED
-
