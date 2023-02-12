@@ -4,41 +4,22 @@ import pytest
 
 
 class Solution:
-    def thirdMax(self, nums: List[int]) -> int:
-        max_set: set = set()
-
-        for num in nums:
-            if len(max_set) < 3:
-                max_set.add(num)
-                continue
-
-            max_set_min = min(max_set)
-            if num > max_set_min and num not in max_set:
-                max_set.remove(max_set_min)
-                max_set.add(num)
-
-        if len(max_set) < 3:
-            return max(max_set)
-        else:
-            return min(max_set)
+    def hammingWeight(self, n: int) -> int:
+        return list(f"{n:b}").count("1")
 
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([[3,2,1]], 1),
-        ([[3,2,]], 3),
-        ([[3, 2, 2]], 3),
-        ([[2, 2, 2]], 2),
-        ([[2, ]], 2),
-
-        ([[5,2,4,1,3,6,0]], 4),
-        ([[1,2,2,5,3,5]], 2),
+        ([1], 1),
+        ([0b00000000000000000000000000001011], 3),
+        ([0b00000000000000000000000010000000], 1),
+        ([0b11111111111111111111111111111101], 31),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().thirdMax
+    test_obj_link = Solution().hammingWeight
     result = test_obj_link(*params)
     assert result == EXPECTED
 
