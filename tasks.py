@@ -4,22 +4,19 @@ import pytest
 
 
 class Solution:
-    def hammingWeight(self, n: int) -> int:
-        return list(f"{n:b}").count("1")
-
+    def reverseBits(self, n: int) -> int:
+        return int(f"{n:0>32b}"[::-1], 2)
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([1], 1),
-        ([0b00000000000000000000000000001011], 3),
-        ([0b00000000000000000000000010000000], 1),
-        ([0b11111111111111111111111111111101], 31),
+        ([0b00000010100101000001111010011100], 0b00111001011110000010100101000000),
+        ([0b11111111111111111111111111111101], 0b10111111111111111111111111111111),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().hammingWeight
+    test_obj_link = Solution().reverseBits
     result = test_obj_link(*params)
     assert result == EXPECTED
 
