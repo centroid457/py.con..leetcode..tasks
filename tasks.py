@@ -4,29 +4,28 @@ import pytest
 
 
 class Solution:
-    def isPowerOfThree(self, n: int) -> bool:
-        if n < 1:
-            return False
+    def fizzBuzz(self, n: int) -> List[str]:
+        result = []
+        for num in range(1, n+1):
+            part = ""
+            if not num%3:
+                part += "Fizz"
+            if not num%5:
+                part += "Buzz"
 
-        while n%3 == 0:
-            n = n/3
+            part = part or str(num)
 
-        return n == 1
+            result.append(part)
 
+        return result
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([-3], False),
-        ([0], False),
-        ([1], True),
-        ([2], False),
-        ([3], True),
-        ([8], False),
-        ([9], True),
+        ([3], ["1","2","Fizz"]),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().isPowerOfThree
+    test_obj_link = Solution().fizzBuzz
     result = test_obj_link(*params)
     assert result == EXPECTED
