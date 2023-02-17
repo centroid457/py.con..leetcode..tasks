@@ -5,33 +5,42 @@ import pytest
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        # DIRECT ORDER - not correct!
-        if min(prices) >= max(prices):
+        prices_set = set(prices)
+        profit_max = max(prices_set) - min(prices_set)
+        if profit_max <= 0:
             return 0
-        
-        profit_max = 0
+
+        profit_best = None
         price_buy_best = None
         price_sell_best = None
-        price_sell_best_drop = None
+        price_sell_best_drop = True
 
         for index, price_buy in enumerate(prices):
-            if not price_sell_best_drop and price_buy == price_sell_best:
+            if price_buy == price_sell_best:
                 price_sell_best_drop = True
             if price_buy_best is not None and price_buy_best <= price_buy:
                 continue
-            if price_buy_best is None:
+            if not price_buy_best:
                 price_buy_best = price_buy
 
-            if price_sell_best_drop or price_sell_best is None:
-                price_sell_best = max(set(prices[index::]))
-            if price_buy_best >= price_sell_best:
-                break
+            # UPDATE=price_sell_best =========
+            if price_sell_best_drop:
+                price_sell_best_drop = False
+                try:
+                    price_sell_best = max(set(prices[index+1::]))
+                except:
+                    break
+
+            # PROFIT =========================
             profit = price_sell_best - price_buy
-            if profit > profit_max:
+            if profit == profit_max:
+                return profit_max
+            elif profit_best is None or profit > profit_best:
                 price_buy_best = price_buy
-                profit_max = profit
+                profit_best = profit
 
-        return profit_max
+        return max([profit_best, 0])
+
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
