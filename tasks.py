@@ -4,26 +4,29 @@ import pytest
 
 
 class Solution:
-    def countDigits(self, num: int) -> int:
-        num_str = str(num)
-        deviders = set(map(int, num_str))
-        result = 0
-        for devider in list(deviders):
-            if not num%devider:
-                result += num_str.count(str(devider))
+    def deleteGreatestValue(self, grid: List[List[int]]) -> int:
+        for row in grid:
+            row.sort()
 
+        result = 0
+        while grid[0]:
+            max_element = 0
+            for row in grid:
+                element = row.pop()
+                if max_element < element:
+                    max_element = element
+            result += max_element
         return result
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([7], 1),
-        ([121], 2),
-        ([1248], 4),
+        ([[[1,2,4],[3,3,1]]], 8),
+        ([[[10]]], 10),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().countDigits
+    test_obj_link = Solution().deleteGreatestValue
     result = test_obj_link(*params)
     assert result == EXPECTED
