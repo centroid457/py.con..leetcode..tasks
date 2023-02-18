@@ -4,21 +4,18 @@ import pytest
 
 
 class Solution:
-    def deleteGreatestValue(self, grid: List[List[int]]) -> int:
-        for row in grid:
-            row.sort()
-
-        return sum(map(max, zip(*grid)))
+    def convertTemperature(self, celsius: float) -> List[float]:
+        return [celsius + 273.15, celsius * 1.80 + 32.00]
 
 
 @pytest.mark.parametrize(
     argnames="params,EXPECTED",
     argvalues=[
-        ([[[1,2,4],[3,3,1]]], 8),
-        ([[[10]]], 10),
+        ([36.50], [309.65000,97.70000]),
+        ([122.11], [395.26000,251.79800]),
     ]
 )
 def test__solution(params,EXPECTED):
-    test_obj_link = Solution().deleteGreatestValue
+    test_obj_link = Solution().convertTemperature
     result = test_obj_link(*params)
     assert result == EXPECTED
