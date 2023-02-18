@@ -8,15 +8,7 @@ class Solution:
         for row in grid:
             row.sort()
 
-        result = 0
-        while grid[0]:
-            max_element = 0
-            for row in grid:
-                element = row.pop()
-                if max_element < element:
-                    max_element = element
-            result += max_element
-        return result
+        return sum(map(max, zip(*grid)))
 
 
 @pytest.mark.parametrize(
